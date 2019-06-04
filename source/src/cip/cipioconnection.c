@@ -908,7 +908,7 @@ EipStatus HandleReceivedIoConnectionData(
     data_length -= 4;
 #endif /* OPENER_CONSUMED_DATA_HAS_RUN_IDLE_HEADER */
     if(no_new_data) {
-      return kEipStatusOk;
+      //return kEipStatusOk;
     }
 
     if (NotifyAssemblyConnectedDataReceived(

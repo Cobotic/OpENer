@@ -116,6 +116,7 @@ int main(int argc,
     signal(SIGHUP, LeaveStack);
 #endif
 #ifdef OPENER_RT
+    printf("Running RT\n");
     /* Memory lock all*/
     if (mlockall(MCL_CURRENT | MCL_FUTURE) == -1) {
       OPENER_TRACE_ERR("mlockall failed: %m\n");
@@ -173,6 +174,7 @@ int main(int argc,
     /* Unlock memory */
     munlockall();
 #else
+    printf("Not running RT\n");
     executeEventLoop();
 #endif
     /* clean up network state */
