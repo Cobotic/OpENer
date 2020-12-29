@@ -116,7 +116,6 @@ int main(int argc,
     signal(SIGHUP, LeaveStack);
 #endif
 #ifdef OPENER_RT
-
     printf("Running in RT mode!\n");
 
     /* Memory lock all*/
@@ -195,9 +194,14 @@ void LeaveStack(int signal) {
   OPENER_TRACE_STATE("got signal HUP\n");
   g_end_stack = 1;
 }
-
+// FILE *fp;
 void *executeEventLoop() {
   /* The event loop. Put other processing you need done continually in here */
+
+  // printf("kOpenerTimerTickInMilliSeconds=%d\n", kOpenerTimerTickInMilliSeconds);
+  // fp = fopen("/home/panda/diff.log", "a");
+  // fprintf(fp,"kOpenerTimerTickInMilliSeconds=%d\n", kOpenerTimerTickInMilliSeconds);
+  // fclose(fp);
   while (1 != g_end_stack) {
     if (kEipStatusOk != NetworkHandlerProcessOnce() ) {
       OPENER_TRACE_ERR("Error in NetworkHandler loop! Exiting OpENer!\n");
