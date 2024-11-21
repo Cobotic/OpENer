@@ -95,8 +95,8 @@ EipStatus NotifyClass(const CipClass *RESTRICT const cip_class,
         if (message_router_request->service == service->service_number)                         /* if match is found */
         {
           /* call the service, and return what it returns */
-          OPENER_TRACE_INFO("notify: calling %s service\n",
-                            service->name);
+          OPENER_TRACE_INFO("notify: calling %s service (%d)\n",
+                            service->name, service->service_number);
           OPENER_ASSERT(NULL != service->service_function)
           return service->service_function(instance,
                                            message_router_request,

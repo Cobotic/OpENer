@@ -277,7 +277,7 @@ EipStatus EstablishIoConnection(
   EipUint16 *const extended_error
   ) {
   EipStatus eip_status = kEipStatusOk;
-
+  OPENER_TRACE_INFO("EstablishIoConnection\n");
   CipConnectionObject *io_connection_object = GetIoConnectionForConnectionData(
     connection_object,
     extended_error);

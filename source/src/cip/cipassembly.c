@@ -168,12 +168,18 @@ EipStatus SetAssemblyAttributeSingle(CipInstance *const instance,
         if(message_router_request->request_path_size < data->length) {
           OPENER_TRACE_INFO(
             "Assembly setAssemblyAttributeSingle: not enough data received.\r\n");
+          OPENER_TRACE_INFO("data->length: %d, request_path_size: %d\n",
+                            data->length,
+                            message_router_request->request_path_size);
           message_router_response->general_status = kCipErrorNotEnoughData;
         }
         else{
           if(message_router_request->request_path_size > data->length) {
             OPENER_TRACE_INFO(
               "Assembly setAssemblyAttributeSingle: too much data received.\r\n");
+            OPENER_TRACE_INFO("data->length: %d, request_path_size: %d\n",
+                              data->length,
+                              message_router_request->request_path_size);
             message_router_response->general_status = kCipErrorTooMuchData;
           }
           else{

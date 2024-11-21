@@ -409,6 +409,7 @@ EipStatus HandleNonNullNonMatchingForwardOpenRequest(
      ConnectionObjectGetTransportClassTriggerProductionTrigger(&
                                                                g_dummy_connection_object) )
   {
+    OPENER_TRACE_INFO("INVALID TRIGGER\n");
     return AssembleForwardOpenResponse(
       &g_dummy_connection_object,
       message_router_response,
@@ -420,6 +421,7 @@ EipStatus HandleNonNullNonMatchingForwardOpenRequest(
                                        message_router_request,
                                        &connection_status);
   if (kEipStatusOk != temp) {
+    OPENER_TRACE_INFO("STATUS NO OK\n");
     return AssembleForwardOpenResponse(&g_dummy_connection_object,
                                        message_router_response, temp,
                                        connection_status);
@@ -430,21 +432,25 @@ EipStatus HandleNonNullNonMatchingForwardOpenRequest(
     GetConnectionManagementEntry( /* Gets correct open connection function for the targeted object */
       g_dummy_connection_object.configuration_path.class_id);
   if (NULL != connection_management_entry) {
+    OPENER_TRACE_INFO("HAVE ENTRY\n");
     temp = connection_management_entry->open_connection_function(
       &g_dummy_connection_object, &connection_status);
   } else {
+    OPENER_TRACE_INFO("NO ENTRY\n");
     temp = kEipStatusError;
     connection_status =
       kConnectionManagerExtendedStatusCodeInconsistentApplicationPathCombo;
   }
 
   if (kEipStatusOk != temp) {
+    OPENER_TRACE_INFO("STATUS FAIL\n");
     OPENER_TRACE_INFO("connection manager: connect failed\n");
     /* in case of error the dummy objects holds all necessary information */
     return AssembleForwardOpenResponse(&g_dummy_connection_object,
                                        message_router_response, temp,
                                        connection_status);
   } else {
+    OPENER_TRACE_INFO("STATUS OK\n");
     OPENER_TRACE_INFO("connection manager: connect succeeded\n");
     /* in case of success the new connection is added at the head of the connection list */
     return AssembleForwardOpenResponse(connection_list.first->data,
@@ -955,7 +961,7 @@ CipConnectionObject *CheckForExistingConnection(
   const CipConnectionObject *const connection_object) {
 
   DoublyLinkedListNode *iterator = connection_list.first;
-
+  OPENER_TRACE_INFO("iterator is NULL %d\n", iterator == NULL);
   while(NULL != iterator) {
     if(kConnectionObjectStateEstablished ==
        ConnectionObjectGetState(iterator->data) ) {
@@ -1445,7 +1451,7 @@ EipStatus AddConnectableObject(
   OpenConnectionFunction open_connection_function
   ) {
   EipStatus status = kEipStatusError;
-
+  OPENER_TRACE_INFO("ADD CONNECTABLE OBJECT\n");
   /*parsing is now finished all data is available and check now establish the connection */
   for (size_t i = 0; i < g_kNumberOfConnectableObjects; ++i) {
     if ( (0 == g_connection_management_list[i].class_id)
@@ -1465,13 +1471,19 @@ ConnectionManagementHandling *
 GetConnectionManagementEntry(const EipUint32 class_id) {
 
   ConnectionManagementHandling *connection_management_entry = NULL;
-
+  OPENER_TRACE_INFO("GET CONNECTION MANAGEMENT ENTRY\n");
+  int found = -1;
   for (size_t i = 0; i < g_kNumberOfConnectableObjects; ++i) {
     if (class_id == g_connection_management_list[i].class_id) {
+      OPENER_TRACE_INFO("CLASS ID %d\n", class_id);
       connection_management_entry = &(g_connection_management_list[i]);
+      found = i;
+
       break;
     }
   }
+
+  OPENER_TRACE_INFO("FOUND CONNECTION MANAGEMENT ENTRY %d\n", found);
   return connection_management_entry;
 }
 

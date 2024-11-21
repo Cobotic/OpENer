@@ -849,6 +849,11 @@ bool ConnectionObjectEqualOriginator(const CipConnectionObject *const object1,
 
 bool EqualConnectionTriad(const CipConnectionObject *const object1,
                           const CipConnectionObject *const object2) {
+
+  OPENER_TRACE_INFO("obj1: serial=%u, vendor=%u, serial=%u\n", object1->connection_serial_number,
+         object1->originator_vendor_id, object1->originator_serial_number);
+  OPENER_TRACE_INFO("obj2: serial=%u, vendor=%u, serial=%u\n", object2->connection_serial_number,
+          object2->originator_vendor_id, object2->originator_serial_number);
   if ( (object1->connection_serial_number
         == object2->connection_serial_number)
        && (object1->originator_vendor_id

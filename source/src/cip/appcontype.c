@@ -134,6 +134,7 @@ CipConnectionObject *GetIoConnectionForConnectionData(
     connection_object,
     extended_error);
   if (NULL == io_connection) {
+    OPENER_TRACE_INFO("GetExclusiveOwnerConnection failed\n");
     if (kConnectionManagerExtendedStatusCodeSuccess == *extended_error) {
       /* we found no connection and don't have an error so try input only next */
       io_connection = GetInputOnlyConnection(connection_object, extended_error);
@@ -180,6 +181,7 @@ CipConnectionObject *GetExclusiveOwnerConnection(
   EipUint16 *const extended_error) {
 
   for (size_t i = 0; i < OPENER_CIP_NUM_EXLUSIVE_OWNER_CONNS; ++i) {
+    OPENER_TRACE_INFO("GetExclusiveOwnerConnection %d/%d\n", i, OPENER_CIP_NUM_EXLUSIVE_OWNER_CONNS);
     if ( (g_exlusive_owner_connections[i].output_assembly ==
           connection_object->consumed_path.instance_id)
          && (g_exlusive_owner_connections[i].input_assembly ==
